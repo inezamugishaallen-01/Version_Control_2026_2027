@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The INEZA MUGISHA ALLEN family website.">
+<title>INEZA MUGISHA ALLEN | Family Home</title>
+
+<style>
+:root {
+    --bg: #08111f;
+    --panel: #101d30;
+    --panel2: #15243a;
+    --gold: #e8c779;
+    --gold2: #ffe7a6;
+    --text: #f4f6fb;
+    --muted: #a8b5c9;
+    --border: rgba(232,199,121,.2);
+    --green: #72d8ad;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+.container { width: min(1160px, 91%); margin: auto; }
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(8,17,31,.96);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--border);
+}
+nav {
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+.brand { font-size: 19px; font-weight: 800; letter-spacing: .5px; }
+.brand span { color: var(--gold); }
+.nav-links { display: flex; align-items: center; gap: 23px; }
+.nav-links a { color: var(--muted); font-size: 14px; }
+.nav-links a:hover { color: var(--gold); }
+.menu {
+    display: none;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+.btn {
+    display: inline-block;
+    padding: 12px 19px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: var(--text);
+    transition: .2s;
+}
+.btn:hover { transform: translateY(-2px); border-color: var(--gold); }
+.btn-gold {
+    background: var(--gold);
+    color: #101827;
+    border-color: var(--gold);
+    font-weight: 800;
+}
+.eyebrow {
+    color: var(--gold);
+    letter-spacing: 3px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+.hero {
+    min-height: 650px;
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    align-items: center;
+    gap: 55px;
+    padding-top: 75px;
+    padding-bottom: 75px;
+}
+.hero h1 {
+    font-size: clamp(38px, 5.5vw, 67px);
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin: 19px 0;
+}
+.gold { color: var(--gold); }
+.hero p { color: var(--muted); max-width: 570px; margin-bottom: 27px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-art {
+    min-height: 390px;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background:
+        radial-gradient(ellipse at top, rgba(232,199,121,.16), transparent 65%),
+        linear-gradient(145deg, #152640, #0c1627);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    box-shadow: 0 25px 80px rgba(0,0,0,.22);
+}
+.crest {
+    width: 112px; height: 112px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--gold);
+    font-size: 37px;
+    margin-bottom: 23px;
+    box-shadow: 0 0 45px rgba(232,199,121,.12);
+}
+.hero-art h2 { font-size: 23px; }
+.hero-art p { margin: 8px 0 0; font-size: 13px; }
+
+section { padding: 85px 0; }
+.section-head { margin-bottom: 36px; }
+.section-head h2 { font-size: clamp(27px, 4vw, 39px); margin: 8px 0; }
+.section-head p { color: var(--muted); max-width: 650px; }
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 26px;
+    transition: transform .25s, border-color .25s;
+}
+.card:hover { transform: translateY(-5px); border-color: var(--gold); }
+.icon { font-size: 29px; margin-bottom: 13px; }
+.card h3 { margin-bottom: 8px; }
+.card p { color: var(--muted); font-size: 14px; }
+.card .small-link {
+    display: inline-block; margin-top: 17px;
+    color: var(--gold); font-weight: 700; font-size: 13px;
+}
+
+.quote {
+    padding: 40px;
+    border-left: 3px solid var(--gold);
+    border-radius: 0 16px 16px 0;
+    background: var(--panel);
+}
+.quote p { font-size: clamp(21px, 3vw, 30px); line-height: 1.5; }
+.quote span { display: block; color: var(--gold); margin-top: 15px; }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+.gallery-item {
+    min-height: 190px;
+    border-radius: 13px;
+    border: 1px dashed rgba(232,199,121,.4);
+    background: linear-gradient(145deg, #152640, #101a2a);
+    display: grid;
+    place-content: center;
+    text-align: center;
+    padding: 20px;
+}
+.gallery-item strong { color: var(--gold); }
+.gallery-item span { font-size: 12px; color: var(--muted); margin-top: 7px; }
+
+.notice {
+    padding: 20px;
+    background: rgba(114,216,173,.06);
+    border: 1px solid rgba(114,216,173,.23);
+    border-radius: 12px;
+    color: var(--muted);
+}
+.notice strong { color: var(--green); }
+
+.owner-box {
+    background: linear-gradient(145deg, #14243a, #0d1828);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    align-items: center;
+}
+.owner-box p { color: var(--muted); margin: 12px 0 20px; }
+.owner-status { color: var(--gold); font-size: 13px; }
+.owner-form {
+    padding: 22px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+.owner-form label { display: block; margin: 12px 0 6px; }
+.owner-form input {
+    width: 100%; padding: 12px;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+}
+.owner-form button { margin-top: 16px; width: 100%; }
+#login-message { color: var(--gold); font-size: 13px; margin-top: 12px; }
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+.contact-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px;
+}
+.contact-panel p { color: var(--muted); margin-top: 10px; }
+.contact-panel input, .contact-panel textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 13px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--bg);
+    color: var(--text);
+}
+.contact-panel textarea { min-height: 100px; resize: vertical; }
+.contact-panel button { margin-top: 13px; }
+
+footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+}
+footer strong { color: var(--gold); }
+
+@media(max-width: 850px) {
+    .hero { grid-template-columns: 1fr; gap: 35px; }
+    .hero-art { min-height: 300px; }
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .owner-box { grid-template-columns: 1fr; }
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 78px; left: 0; right: 0;
+        padding: 20px 5%;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .nav-links.open { display: flex; }
+    .menu { display: block; }
+}
+@media(max-width: 560px) {
+    .cards, .gallery, .contact-grid { grid-template-columns: 1fr; }
+    .hero h1 { letter-spacing: -1px; }
+    .quote, .owner-box { padding: 23px; }
+    .brand { font-size: 15px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <nav class="container">
+        <a class="brand" href="#home">INEZA MUGISHA <span>ALLEN</span></a>
+        <div class="nav-links" id="navLinks">
+            <a href="#home">Home</a>
+            <a href="#family">Our Family</a>
+            <a href="#memories">Memories</a>
+            <a href="#values">Our Values</a>
+            <a href="#owner">Owner Access</a>
+        </div>
+        <button class="menu" id="menuBtn" aria-label="Open menu">☰</button>
+    </nav>
+</header>
+
+<main>
+    <!-- WELCOME -->
+    <section class="hero container" id="home">
+        <div>
+            <span class="eyebrow">A PRIVATE FAMILY WEBSITE</span>
+            <h1>Welcome to the<br>
+                <span class="gold">INEZA MUGISHA ALLEN</span><br>
+                Website.
+            </h1>
+            <p>
+                A place to celebrate family, preserve precious memories,
+                share our values, and keep our story alive for generations.
+                Built with care, respect, and a vision for the future.
+            </p>
+            <div class="actions">
+                <a class="btn btn-gold" href="#family">Discover Our Family ↗</a>
+                <a class="btn" href="#memories">Explore Memories</a>
+            </div>
+        </div>
+
+        <div class="hero-art">
+            <div class="crest">IMA</div>
+            <span class="eyebrow">FAMILY • UNITY • FUTURE</span>
+            <h2>One Family. One Story.</h2>
+            <p>A home for our history, dreams, and shared memories.</p>
+        </div>
+    </section>
+
+    <!-- FAMILY -->
+    <section id="family">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">OUR FOUNDATION</span>
+                <h2>Family comes first.</h2>
+                <p>
+                    Every family has a story worth preserving.
+                    This space is designed to honor the people who make ours special.
+                </p>
+            </div>
+
+            <div class="cards">
+                <article class="card">
+                    <div class="icon">🏡</div>
+                    <h3>Our Home</h3>
+                    <p>A place of belonging, support, kindness, and understanding.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">👨‍👩‍👧‍👦</div>
+                    <h3>Family Members</h3>
+                    <p>A dedicated place to introduce relatives and celebrate their achievements.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">🌳</div>
+                    <h3>Our Heritage</h3>
+                    <p>Preserve family history and the lessons passed down through generations.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- VALUES -->
+    <section id="values">
+        <div class="container">
+            <div class="quote">
+                <span class="eyebrow">WHAT WE STAND FOR</span>
+                <p>
+                    “A strong family is built not only by where we come from,
+                    but by how we care for one another and the future we create together.”
+                </p>
+                <span>— The INEZA MUGISHA ALLEN Family Website</span>
+            </div>
+
+            <div class="cards" style="margin-top:24px">
+                <article class="card">
+                    <div class="icon">🤝</div>
+                    <h3>Respect</h3>
+                    <p>Listen, understand, and treat every family member with dignity.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">❤️</div>
+                    <h3>Love & Support</h3>
+                    <p>Celebrate one another and help each other through difficult moments.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">🎓</div>
+                    <h3>Education & Growth</h3>
+                    <p>Encourage learning, responsibility, and ambitious dreams.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEMORIES -->
+    <section id="memories">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">OUR STORY</span>
+                <h2>Memories worth keeping.</h2>
+                <p>
+                    These are placeholders for your family's photographs,
+                    celebrations, milestones, and special moments.
+                </p>
+            </div>
+
+            <div class="gallery">
+                <div class="gallery-item">
+                    <strong>📸 Family Celebrations</strong>
+                    <span>Add your chosen family photos here.</span>
+                </div>
+                <div class="gallery-item">
+                    <strong>🎉 Special Moments</strong>
+                    <span>Remember birthdays and achievements.</span>
+                </div>
+                <div class="gallery-item">
+                    <strong>🌍 Our Journey</strong>
+                    <span>Keep meaningful moments from every year.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAMILY NEWS -->
+    <section id="news">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">FAMILY JOURNAL</span>
+                <h2>News & Announcements</h2>
+                <p>A planned space for family updates, reunions, and achievements.</p>
+            </div>
+
+            <div class="cards">
+                <article class="card">
+                    <div class="icon">📅</div>
+                    <h3>Upcoming Events</h3>
+                    <p>Add dates for family reunions, celebrations, and important gatherings.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">🏆</div>
+                    <h3>Achievements</h3>
+                    <p>Celebrate education, work, personal progress, and family successes.</p>
+                </article>
+                <article class="card">
+                    <div class="icon">📝</div>
+                    <h3>Family Updates</h3>
+                    <p>Keep relatives informed with useful announcements and shared news.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- OWNER ACCESS -->
+    <section id="owner">
+        <div class="container">
+            <div class="owner-box">
+                <div>
+                    <span class="eyebrow">RESTRICTED AREA</span>
+                    <h2>Owner Access</h2>
+                    <p>
+                        This area is intended for the website owner to manage
+                        private family information, documents, and settings.
+                        Access control must be implemented on a secure server.
+                    </p>
+                    <span class="owner-status">● Secure authentication not yet configured</span>
+                </div>
+
+                <form class="owner-form" id="ownerForm">
+                    <h3>Owner Sign In</h3>
+                    <p style="color:var(--muted);font-size:13px">
+                        Sign-in interface preview only.
+                    </p>
+                    <label for="ownerEmail">Owner email</label>
+                    <input type="email" id="ownerEmail" autocomplete="username"
+                        placeholder="Enter owner email" required>
+
+                    <label for="ownerPassword">Password</label>
+                    <input type="password" id="ownerPassword"
+                        autocomplete="current-password"
+                        placeholder="Enter password" required>
+
+                    <button class="btn btn-gold" type="submit">Sign In</button>
+                    <p id="login-message" role="status"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">GET IN TOUCH</span>
+                <h2>Stay connected.</h2>
+                <p>This demo form does not send or save messages.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-panel">
+                    <h3>Our Family Vision</h3>
+                    <p>
+                        Build a lasting digital home where family history,
+                        meaningful experiences, and future goals can be preserved.
+                    </p>
+                    <p><strong class="gold">Created by:</strong> INEZA MUGISHA ALLEN</p>
+                </div>
+
+                <form class="contact-panel" id="messageForm">
+                    <h3>Write a Message</h3>
+                    <input id="visitorName" type="text" placeholder="Your name" required>
+                    <input id="visitorEmail" type="email" placeholder="Your email" required>
+                    <textarea id="visitorMessage" placeholder="Your message" required></textarea>
+                    <button class="btn btn-gold" type="submit">Submit Demo Message</button>
+                    <p id="messageStatus" role="status"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© <span id="year"></span> <strong>INEZA MUGISHA ALLEN</strong></p>
+        <p>Family • Respect • Heritage • Future</p>
+        <p>Protect your family's privacy. Share private information only through secure systems.</p>
+    </div>
+</footer>
+
+<script>
+// MOBILE NAVIGATION
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("open");
+    menuBtn.textContent = navLinks.classList.contains("open") ? "✕" : "☰";
+});
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuBtn.textContent = "☰";
+    });
+});
+
+// AUTOMATIC FOOTER YEAR
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// OWNER SIGN-IN DEMO — NOT REAL AUTHENTICATION
+document.getElementById("ownerForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    document.getElementById("login-message").textContent =
+        "Demo only: no login was performed. Secure server authentication is required.";
+
+    document.getElementById("ownerPassword").value = "";
+});
+
+// CONTACT FORM DEMO
+document.getElementById("messageForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    document.getElementById("messageStatus").textContent =
+        "Demo complete. Your message was not sent or stored.";
+
+    event.target.reset();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,716 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeNest | Build Your Future</title>
+
+    <style>
+        /* ===== BASIC SETTINGS ===== */
+        :root {
+            --bg: #080d1a;
+            --card: #111a2e;
+            --text: #f5f7ff;
+            --muted: #a5b2cb;
+            --accent: #7c5cff;
+            --accent2: #20d9c3;
+            --border: rgba(255,255,255,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.light {
+            --bg: #f4f6ff;
+            --card: #ffffff;
+            --text: #141b31;
+            --muted: #5c6680;
+            --border: rgba(20,27,49,0.12);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1100px, 90%);
+            margin: auto;
+        }
+
+        /* ===== NAVIGATION ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent2);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent2);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-btn, .menu-btn {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 9px 12px;
+            border-radius: 10px;
+        }
+
+        .menu-btn {
+            display: none;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-block;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: 1px solid transparent;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, var(--accent), #5740db);
+        }
+
+        .btn-outline {
+            border-color: var(--border);
+            background: var(--card);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 610px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 55px;
+            padding-top: 75px;
+            padding-bottom: 75px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: var(--accent2);
+            background: rgba(32,217,195,0.09);
+            border: 1px solid rgba(32,217,195,0.2);
+            padding: 7px 13px;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 23px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 68px);
+            line-height: 1.08;
+            letter-spacing: -2.5px;
+            margin-bottom: 23px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--accent2), #9b85ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 550px;
+            color: var(--muted);
+            font-size: 17px;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+        }
+
+        /* ===== CODE WINDOW ===== */
+        .code-window {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+            transform: rotate(1deg);
+        }
+
+        .window-top {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff647c;
+        }
+
+        .dot:nth-child(2) { background: #ffca5c; }
+        .dot:nth-child(3) { background: #42d9a0; }
+
+        pre {
+            padding: 28px 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .purple { color: #b59bff; }
+        .green { color: #5de6bd; }
+        .yellow { color: #ffd479; }
+
+        .code-note {
+            border-top: 1px solid var(--border);
+            padding: 13px 20px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* ===== GENERAL SECTIONS ===== */
+        section:not(.hero) {
+            padding-top: 85px;
+            padding-bottom: 85px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--card);
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            border-color: var(--accent);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: rgba(124,92,255,0.14);
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .card a {
+            color: var(--accent2);
+            font-weight: bold;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 50px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 40px;
+        }
+
+        .about-box h2 {
+            font-size: 35px;
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        .about-box p {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .feature {
+            padding: 17px;
+            border-left: 3px solid var(--accent2);
+            margin: 12px 0;
+            background: rgba(124,92,255,0.06);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .feature strong {
+            display: block;
+        }
+
+        .feature span {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-box {
+            max-width: 650px;
+            margin: auto;
+            padding: 35px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            border-radius: 18px;
+        }
+
+        .contact-box label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .contact-box input,
+        .contact-box textarea {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: var(--bg);
+            color: var(--text);
+            font: inherit;
+        }
+
+        .contact-box textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        #form-message {
+            margin-top: 15px;
+            color: var(--accent2);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .reveal {
+            animation: appear 0.8s ease both;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== MOBILE RESPONSIVENESS ===== */
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 45px;
+                min-height: auto;
+            }
+
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .about-box {
+                grid-template-columns: 1fr;
+                padding: 25px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 76px;
+                left: 0;
+                right: 0;
+                padding: 24px 5%;
+                background: var(--bg);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                letter-spacing: -1.5px;
+            }
+
+            .contact-box {
+                padding: 22px;
+            }
+
+            .about-box h2 {
+                font-size: 29px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <nav class="container">
+            <a href="#home" class="logo">Code<span>Nest.</span></a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#home">Home</a>
+                <a href="#projects">Projects</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-btn" id="themeBtn"
+                    aria-label="Toggle color theme">☀️</button>
+                <button class="menu-btn" id="menuBtn"
+                    aria-label="Toggle navigation">☰</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="hero container" id="home">
+            <div class="reveal">
+                <span class="eyebrow">✦ YOUR NEXT CHAPTER STARTS HERE</span>
+
+                <h1>
+                    Think bigger.<br>
+                    Build <span class="gradient-text">the future.</span>
+                </h1>
+
+                <p>
+                    Welcome to CodeNest — a space for creative ideas,
+                    modern technology, and digital projects.
+                    Explore what is possible when imagination meets code.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        Explore Projects ↗
+                    </a>
+                    <a href="#about" class="btn btn-outline">
+                        Discover More
+                    </a>
+                </div>
+            </div>
+
+            <div class="code-window reveal">
+                <div class="window-top">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span style="margin-left: auto">welcome.js</span>
+                </div>
+
+                <pre><span class="purple">const</span> future = {
+  creativity: <span class="green">true</span>,
+  ideas: <span class="yellow">"Unlimited"</span>,
+  learning: <span class="green">"Every day"</span>
+};
+
+<span class="purple">function</span> buildDreams() {
+  <span class="purple">return</span> <span class="yellow">"Keep creating!"</span>;
+}
+
+console.log(buildDreams());</pre>
+
+                <div class="code-note">
+                    ● Ready to create something amazing
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects">
+            <div class="container">
+                <div class="section-heading">
+                    <h2>Explore What We Do</h2>
+                    <p>Ideas become powerful when you put them into action.</p>
+                </div>
+
+                <div class="cards">
+                    <article class="card">
+                        <div class="card-icon">💻</div>
+                        <h3>Web Development</h3>
+                        <p>
+                            Build modern websites using HTML, CSS,
+                            JavaScript, and creative design.
+                        </p>
+                        <a href="#contact">Learn more ↗</a>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-icon">🚀</div>
+                        <h3>Creative Projects</h3>
+                        <p>
+                            Turn your ideas into useful digital
+                            experiences and interactive tools.
+                        </p>
+                        <a href="#contact">Explore ideas ↗</a>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-icon">🧠</div>
+                        <h3>Keep Learning</h3>
+                        <p>
+                            Discover programming concepts, solve
+                            problems, and develop new skills.
+                        </p>
+                        <a href="#about">Get inspired ↗</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <div class="container">
+                <div class="about-box">
+                    <div>
+                        <span class="eyebrow">ABOUT CODENEST</span>
+                        <h2>Every expert was once a beginner.</h2>
+                        <p>
+                            Great things start with curiosity.
+                            Learn, experiment, make mistakes, and
+                            improve your skills one project at a time.
+                        </p>
+                        <a href="#contact" class="btn btn-primary">
+                            Let's Connect ↗
+                        </a>
+                    </div>
+
+                    <div>
+                        <div class="feature">
+                            <strong>01 — Creativity</strong>
+                            <span>Think of ideas beyond the ordinary.</span>
+                        </div>
+
+                        <div class="feature">
+                            <strong>02 — Technology</strong>
+                            <span>Use code to solve real problems.</span>
+                        </div>
+
+                        <div class="feature">
+                            <strong>03 — Growth</strong>
+                            <span>Improve through practice and patience.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <div class="container">
+                <div class="section-heading">
+                    <h2>Have an idea?</h2>
+                    <p>Write a message and try out the interactive form.</p>
+                </div>
+
+                <form class="contact-box" id="contactForm">
+                    <label for="name">Your name</label>
+                    <input id="name" name="name" type="text"
+                        placeholder="Enter your name" required>
+
+                    <label for="email">Your email</label>
+                    <input id="email" name="email" type="email"
+                        placeholder="you@example.com" required>
+
+                    <label for="message">Your message</label>
+                    <textarea id="message" name="message"
+                        placeholder="Tell us your idea..." required></textarea>
+
+                    <button class="btn btn-primary" type="submit">
+                        Send Message ↗
+                    </button>
+
+                    <p id="form-message" role="status"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>© <span id="year"></span> CodeNest. Built with curiosity and code.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== MOBILE NAVIGATION =====
+        const menuBtn = document.getElementById("menuBtn");
+        const navLinks = document.getElementById("navLinks");
+
+        menuBtn.addEventListener("click", function () {
+            navLinks.classList.toggle("open");
+
+            menuBtn.textContent =
+                navLinks.classList.contains("open") ? "✕" : "☰";
+        });
+
+        // Close mobile menu after selecting a link
+        document.querySelectorAll(".nav-links a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                navLinks.classList.remove("open");
+                menuBtn.textContent = "☰";
+            });
+        });
+
+        // ===== DARK AND LIGHT THEME =====
+        const themeBtn = document.getElementById("themeBtn");
+
+        themeBtn.addEventListener("click", function () {
+            document.body.classList.toggle("light");
+
+            const isLight =
+                document.body.classList.contains("light");
+
+            themeBtn.textContent = isLight ? "🌙" : "☀️";
+        });
+
+        // ===== AUTOMATIC COPYRIGHT YEAR =====
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+        // ===== DEMO CONTACT FORM =====
+        const contactForm = document.getElementById("contactForm");
+        const formMessage = document.getElementById("form-message");
+
+        contactForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+
+            formMessage.textContent =
+                `Thanks, ${name}! Your form works, but this demo does not send messages yet.`;
+
+            contactForm.reset();
+        });
+    </script>
+
+</body>
+</html>
