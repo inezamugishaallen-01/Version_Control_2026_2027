@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isOwner() {
+      return signedIn() && request.auth.token.role == 'owner';
+    }
+    function isAdmin() {
+      return signedIn() && request.auth.token.role in ['owner', 'admin'];
+    }
+    function isMember() {
+      return signedIn() && request.auth.token.role in ['owner', 'admin', 'member'];
+    }
+
+    // Users can read only their own profile. Role claims are set by trusted server code.
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid || isOwner();
+      allow create, update, delete: if false;
+    }
+
+    // Shared family posts are readable only by approved authenticated members.
+    match /familyPosts/{postId} {
+      allow read: if isMember();
+      allow create: if isMember()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.keys().hasOnly(['title', 'body', 'createdBy', 'createdAt', 'visibility'])
+        && request.resource.data.title is string
+        && request.resource.data.title.size() <= 140
+        && request.resource.data.body is string
+        && request.resource.data.body.size() <= 10000;
+      allow update: if isAdmin()
+        || (isMember()
+          && resource.data.createdBy == request.auth.uid
+          && request.resource.data.createdBy == resource.data.createdBy
+          && request.resource.data.keys().hasOnly(['title', 'body', 'createdBy', 'createdAt', 'visibility']));
+      allow delete: if isAdmin();
+    }
+
+    // Only the owner can inspect invitations and audit events.
+    match /invitations/{inviteId} {
+      allow read, write: if false;
+    }
+    match /auditLogs/{logId} {
+      allow read, write: if false;
+    }
+
+    // Family configuration cannot be modified from the browser.
+    match /settings/{document=**} {
+      allow read: if isMember();
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

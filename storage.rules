@@ -1,0 +1,42 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isOwner() {
+      return signedIn() && request.auth.token.role == 'owner';
+    }
+    function isAdmin() {
+      return signedIn() && request.auth.token.role in ['owner', 'admin'];
+    }
+    function isMember() {
+      return signedIn() && request.auth.token.role in ['owner', 'admin', 'member'];
+    }
+
+    // Authenticated family members may upload image files to their own folder.
+    // Owner/admin can read and delete all family media. Members can read shared family media.
+    match /family-media/{uid}/{fileName} {
+      allow read: if isMember();
+      allow create: if isMember()
+        && request.auth.uid == uid
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow update: if isOwner()
+        || (isMember()
+          && request.auth.uid == uid
+          && request.resource.size < 10 * 1024 * 1024
+          && request.resource.contentType.matches('image/.*'));
+      allow delete: if isAdmin() || (signedIn() && request.auth.uid == uid);
+    }
+
+    // Sensitive documents are owner-only by default.
+    match /private-documents/{allPaths=**} {
+      allow read, write: if isOwner();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

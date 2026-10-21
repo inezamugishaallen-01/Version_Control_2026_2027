@@ -1,0 +1,15 @@
+{
+  "name": "ineza-mugisha-allen-family-legacy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Invitation-only family website with Firebase Authentication, Firestore, Storage and Cloud Functions.",
+  "scripts": {
+    "serve": "firebase emulators:start",
+    "deploy": "firebase deploy",
+    "deploy:rules": "firebase deploy --only firestore:rules,storage",
+    "deploy:functions": "firebase deploy --only functions"
+  },
+  "devDependencies": {
+    "firebase-tools": "^14.0.0"
+  }
+}
